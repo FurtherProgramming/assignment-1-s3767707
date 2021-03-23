@@ -1,9 +1,7 @@
-//package app;
+package com.mycompany.app;
 
 import java.util.Scanner;
 
-//import books.Book;
-//import books.Order;
 
 /*
  * Class:		Menu
@@ -84,19 +82,35 @@ public class Menu {
 		System.out.println("(Hit enter to cancel any operation)");
 	}
 	
-    private void promptUserToAddItem() {
+    /*
+     * Prompt user to enter title to search for
+     * IF found
+       * DISPLAY search result
+       * PROMPT user to select what item to purchase
+       * WHILE user input incorrect
+         * IF user input = 0
+         * THEN exit function
+         * IF user input is numeric
+           * IF user input matches search result list
+             * RUN purchaseEbook(String input, Book[] selection, int num) function
+           * ELSE print error message
+         * ELSE print error message
+       * ELSE print error message 
+     */
+	private void promptUserToAddItem() {
 		
 		System.out.println("Enter title to search for: ");
 		String input = console.nextLine();
 		boolean found = bookStore.searchBookByTitle(input);
 		boolean match = false;
-		Book[] selection = bookStore.getSelection();
+		Book[] selection = bookStore.getSelection();		
 		int num;
+		
 
 		
 		if(found) {
 			
-			bookStore.displaySearch(input);
+			bookStore.displaySearch();
 			System.out.println("Which number do you wish to purchase?");
 			
 			while(!match) {
@@ -112,9 +126,10 @@ public class Menu {
 					
 					num = Integer.parseInt(input);
 					
-					if(num > 0 && num < selection.length) {
-										
-					    System.out.println("\nPurchasing: " + selection[num - 1].getTitle());
+					//only one item can be selected to purchase each time
+					if(num > 0 && num < selection.length) {									
+					
+						System.out.println("\nPurchasing: " + selection[num - 1].getTitle());										
 					    purchaseEbook(input, selection, num);
 					    					    			    
 					}
@@ -137,21 +152,64 @@ public class Menu {
 		}
 	}
     
+	/*
+	 * FOR shopping cart array
+	   * IF cart item not null
+	     * IF cart item title equals to selection item title
+	       * INCREASE count by 1
+	     * ELSE exit loop
+	   * ELSE exit loop      
+	 * IF selected book item has 0 hard copy
+	   * PRINTS error message
+	 * ELSE boolean purchasePhysicalCopy = true 
+	 * PROMPTS user if he wants to but eBook version
+	 * WHILE not match2 
+	   * GET user input
+	   * IF user input equals to y or Y 
+	     * BOOLEAN match2 = true
+	     * BOOLEAN purchaseEbook = true
+	     * PRINTS success purchase message
+	   * ELSE IF user input equals to n or N
+	     * BOOLEAN match2 = false
+	     * BOOLEAN purchaseEbook = true
+	     * PRINTS "Ebook not purchased."  
+	   * ELSE prints error message
+	 * IF user buy physical copy or eBook version
+	   * CREATE a new order object
+	   * ADD order to cart  
+	 */
     public void purchaseEbook(String input, Book[] selection, int num) {
     	
-    	boolean match2 = false;
-    	boolean purchaseEbook = false;
-    	boolean purchasePhyicalCopy = false;
+    	boolean match2 = false;//returns true if user input equals ignore case to y or n
+    	boolean purchaseEbook = false;// variable to indicate whether user buy eBook versiom
+    	boolean purchasePhyicalCopy = false;// variable to indicate whether user buy physical copy
+    	Book[] bookList = bookStore.getBookList();
+		Order[] cart = bookStore.getCart();
+		int count = 0;
+		
+    	for(int i = 0; i < cart.length; i++) {
+	    	
+	    	if(cart[i] != null) {
+	    		
+	    		if(cart[i].getBook().getTitle().equals(selection[num - 1].getTitle())) {
+		    		
+		    		count++;
+		    	}
+	    	}
+	    }
     	
-    	if(selection[num - 1].getNum() == 0) {
+        if(selection[num - 1].getNum() == 0 || count == selection[num - 1].getNum()) {
 	    	
 	    	System.out.println("Out of stock. Purchase failed");
 	    }
+        
 	    else {
 	    	
 	    	purchasePhyicalCopy = true;
 	    }
 	    
+    	//No need to check whether there is an eBook version of that title 
+    	//as a book always has an eBook version if it appears in the bookstore
 	    System.out.println("Do you want to buy this as an eBook(y/n): ");
 	    
     	while(!match2) {
@@ -182,6 +240,9 @@ public class Menu {
 	    }	
     }
     
+    /*
+     * Function to indicate which item user want to remove from shopping cart
+     */
     private void promptUserToRemoveItem() {
     	
     	boolean isNumeric = false;
@@ -196,6 +257,7 @@ public class Menu {
         	String input = console.nextLine();
         	isNumeric = input.matches(numericRegex);
         	
+        	//Make sure user input is numeric so no exception when run
         	if(isNumeric) {
         		
         		int num = Integer.parseInt(input);

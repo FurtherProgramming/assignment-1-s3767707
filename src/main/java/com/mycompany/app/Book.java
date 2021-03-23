@@ -1,4 +1,4 @@
-//package books;
+package com.mycompany.app;
 
 /*
  * Class:		Book
@@ -60,16 +60,5 @@ public class Book {
 		this.numOfPhysicalCopy = numOfPhysicalCopy;
 	}
 	
-	public String toString() {
-		String string = "";
-		if(eBookAvailability == true) {
-			
-			string = String.format("%s -- %s, %d copies, ebook available", title, author, numOfPhysicalCopy);
-		}
-		else {
-			
-			string = String.format("%s -- %s, %d copies, no ebook", title, author, numOfPhysicalCopy);
-		}
-		return string;
-	}
+	
 }

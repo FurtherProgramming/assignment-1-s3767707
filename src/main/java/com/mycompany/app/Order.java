@@ -1,4 +1,4 @@
-//package books;
+package com.mycompany.app;
 
 /*
  * Class:		Order
@@ -9,8 +9,8 @@ public class Order {
 
 	//order attributes
 	private Book book;
-	private boolean phyicalCopy;//act as a tracker for price calculation during checkout later
-	private boolean eBook;//act as a tracker for price calculation during checkout later
+	private boolean phyicalCopy;//return true if user buy a physical copy of the book
+	private boolean eBook;//return true if user buy a physical copyof the book
 	
 	public Order(Book book, boolean phyicalCopy, boolean eBook) {
 		
