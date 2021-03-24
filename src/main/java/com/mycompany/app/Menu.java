@@ -166,13 +166,19 @@ public class Menu {
 	 * WHILE not match2 
 	   * GET user input
 	   * IF user input equals to y or Y 
-	     * BOOLEAN match2 = true
-	     * BOOLEAN purchaseEbook = true
-	     * PRINTS success purchase message
+	     * IF book has an ebook version
+	       * BOOLEAN purchaseEbook = true
+	       * PRINTS success purchase message
+	     * ELSE
+	       * PRINTS no ebook for that book
+	     * BOOLEAN match2 = true   
 	   * ELSE IF user input equals to n or N
-	     * BOOLEAN match2 = false
-	     * BOOLEAN purchaseEbook = true
-	     * PRINTS "Ebook not purchased."  
+	     * IF book has an ebook version
+	       * BOOLEAN purchaseEbook = false
+	       * PRINTS "Ebook not purchased."
+	     * ELSE
+	       * PRINTS no ebook for that book
+	     * BOOLEAN match2 = true   
 	   * ELSE prints error message
 	 * IF user buy physical copy or eBook version
 	   * CREATE a new order object
@@ -208,8 +214,7 @@ public class Menu {
 	    	purchasePhyicalCopy = true;
 	    }
 	    
-    	//No need to check whether there is an eBook version of that title 
-    	//as a book always has an eBook version if it appears in the bookstore
+ 
 	    System.out.println("Do you want to buy this as an eBook(y/n): ");
 	    
     	while(!match2) {
@@ -217,15 +222,29 @@ public class Menu {
 	    	input = console.nextLine();
 	    	if(input.equalsIgnoreCase("y")) {
 	    		
-	    		purchaseEbook = true;
+	    		if(selection[num -1].eBookAvailability() == true) {
+	    			
+	    			purchaseEbook = true;
+		    		System.out.println("Ebook purchased successfully.");
+	    		}
+	    		else {
+	    			
+	    			System.out.println("There is no ebook available for that title.");
+	    		}
 	    		match2 = true;
-	    		System.out.println("Ebook purchased successfully.");
 	    	}
 	    	else if(input.equalsIgnoreCase("n")) {
 	    		
-	    		purchaseEbook = false;
+	    		if(selection[num -1].eBookAvailability() == true) {
+	    			
+	    			purchaseEbook = false;
+		    		System.out.println("Ebook not purchased.");    		
+	    		}
+                else {
+	    			
+	    			System.out.println("There is no ebook available for that title.");
+	    		}
 	    		match2 = true;
-	    		System.out.println("Ebook not purchased.");
 	    	}
 	    	else {
 	    		

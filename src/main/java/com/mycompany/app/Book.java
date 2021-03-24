@@ -21,17 +21,9 @@ public class Book {
 		}	
 		this.title = title;
 		this.author = author;
-		this.numOfPhysicalCopy = numOfPhysicalCopy;
+		this.numOfPhysicalCopy = numOfPhysicalCopy;			
+	    this.eBookAvailability = eBookAvailability;
 		
-		//a book which has hard copy always has a eBook version
-		if(this.numOfPhysicalCopy > 0) {
-			
-			this.eBookAvailability = true;
-		}
-		else {
-			
-			this.eBookAvailability = eBookAvailability;
-		}
 		
 	}
 
