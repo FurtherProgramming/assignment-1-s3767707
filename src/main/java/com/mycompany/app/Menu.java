@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Menu {
 	private Scanner console = new Scanner(System.in);
     private final String numericRegex = "[0-9]+";	
-    private BookStore bookStore = new BookStore();
+    private App bookStore = new App();
 	
     /*
 	 * Runs the menu in a loop until the user decides to exit the system.

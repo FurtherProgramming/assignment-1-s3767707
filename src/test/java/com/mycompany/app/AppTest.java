@@ -18,13 +18,13 @@ class Test {
 
 	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 	private final PrintStream originalOut = System.out;;
-	private static BookStore bs;
+	private static App bs;
 	private static Menu menu;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 				
-		bs = new BookStore();
+		bs = new App();
 		menu = new Menu();
 	}
 
@@ -38,7 +38,7 @@ class Test {
 	void restore() {
 		
 		System.setOut(originalOut);
-		bs = new BookStore();
+		bs = new App();
 		
 	}
 	
