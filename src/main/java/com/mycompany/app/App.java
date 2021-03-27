@@ -44,7 +44,14 @@ public class App {
 						}					
 					}
 				}
-				System.out.println(String.format("%d. %s -- %s, %d copies, ebook available", i + 1, bookList[i].getTitle(), bookList[i].getAuthor(), bookList[i].getNum() - count));
+				if(bookList[i].eBookAvailability() == true) {
+					
+					System.out.println(String.format("%d. %s -- %s, %d copies, ebook available", i + 1, bookList[i].getTitle(), bookList[i].getAuthor(), bookList[i].getNum() - count));
+				}
+				else {
+					
+					System.out.println(String.format("%d. %s -- %s, %d copies, no ebook", i + 1, bookList[i].getTitle(), bookList[i].getAuthor(), bookList[i].getNum() - count));
+				}
 			}
 		}
 	}
@@ -58,7 +65,7 @@ public class App {
 
 		Book book = new Book("Absolute Java", "Frank", 1, true);
 		Book book2 = new Book("JAVA : How to Program", "Duncas", 4, true);
-		Book book3 = new Book("Computing Concept swith JAVA 3 Essentials", "Mac", 7, false);
+		Book book3 = new Book("Computing Concepts with JAVA 3 Essentials", "Mac", 7, false);
 		Book book4 = new Book("Java Software Solutions", "Brendon", 2, true);
 
 		bookList = addBookToArray(book, bookList);

@@ -13,29 +13,31 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 
-
-class Test {
-
-	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+/**
+ * Unit test for simple App.
+ */
+public class AppTest 
+{
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 	private final PrintStream originalOut = System.out;;
 	private static App bs;
 	private static Menu menu;
 
 	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
+	public static void setUpBeforeClass() throws Exception {
 				
 		bs = new App();
 		menu = new Menu();
 	}
 
 	@BeforeEach
-	void setUp() throws Exception {
+	public void setUp() throws Exception {
 		
 		System.setOut(new PrintStream(outContent));
 	}
  
 	@AfterEach
-	void restore() {
+	public void restore() {
 		
 		System.setOut(originalOut);
 		bs = new App();
@@ -43,19 +45,19 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void testDisplayAllFunction_returnList_ifListNotEmpty() {
+	public void testDisplayAllFunction_returnList_ifListNotEmpty() {
 		
 		bs.displayAll();
 		assertEquals("1. Absolute Java -- Frank, 1 copies, ebook available\n"
 				+ "2. JAVA : How to Program -- Duncas, 4 copies, ebook available\n"
-				+ "3. Computing Concept swith JAVA 3 Essentials -- Mac, 7 copies, ebook available\n"
+				+ "3. Computing Concepts with JAVA 3 Essentials -- Mac, 7 copies, no ebook\n"
 				+ "4. Java Software Solutions -- Brendon, 2 copies, ebook available\n"
 				, outContent.toString());
 		
 	} 
 	
 	@org.junit.jupiter.api.Test
-	void testDisplayAllFunction_returnList_ifBookIsAddToCartButNotCheckout() {
+	public void testDisplayAllFunction_returnList_ifBookIsAddToCartButNotCheckout() {
 		
 		Book[] bookList = bs.getBookList();
 		Order order = new Order(bookList[3], true, true);
@@ -67,14 +69,14 @@ class Test {
         
 		assertEquals("1. Absolute Java -- Frank, 1 copies, ebook available\n"
 				+ "2. JAVA : How to Program -- Duncas, 4 copies, ebook available\n"
-				+ "3. Computing Concept swith JAVA 3 Essentials -- Mac, 7 copies, ebook available\n"
+				+ "3. Computing Concepts with JAVA 3 Essentials -- Mac, 7 copies, no ebook\n"
 				+ "4. Java Software Solutions -- Brendon, 0 copies, ebook available\n"
 				, outContent.toString());
 		
 	} 
 	
 	@org.junit.jupiter.api.Test
-	void testDisplayAllFunction_returnList_ifBookIsAddToCartAndCheckout() {
+	public void testDisplayAllFunction_returnList_ifBookIsAddToCartAndCheckout() {
 		
 		Book[] bookList = bs.getBookList();
 		Order order = new Order(bookList[2], true, true);
@@ -89,14 +91,14 @@ class Test {
 				+ "Thanks for shopping with Daintree!\n"
 				+ "1. Absolute Java -- Frank, 1 copies, ebook available\n"
 				+ "2. JAVA : How to Program -- Duncas, 4 copies, ebook available\n"
-				+ "3. Computing Concept swith JAVA 3 Essentials -- Mac, 6 copies, ebook available\n"
+				+ "3. Computing Concepts with JAVA 3 Essentials -- Mac, 6 copies, no ebook\n"
 				+ "4. Java Software Solutions -- Brendon, 1 copies, ebook available\n"
 				, outContent.toString());
 		
 	} 
 
 	@org.junit.jupiter.api.Test
-	void testDisplayAllFunction_returnEmptyString_ifListIsEmpty() {
+	public void testDisplayAllFunction_returnEmptyString_ifListIsEmpty() {
 		
 		bs.deleteBookList();
 		bs.displayAll();
@@ -105,21 +107,21 @@ class Test {
 	} 
 	
 	@org.junit.jupiter.api.Test
-    void addBookToArrayFunction_returnNewList_ifAddOneNewBook() {
+    public void addBookToArrayFunction_returnNewList_ifAddOneNewBook() {
 		
 		Book book = new Book("Junit 5", "Edward", 9, false);
 		bs.addBookToArray(book, bs.getBookList());
 		bs.displayAll();
 		assertEquals("1. Absolute Java -- Frank, 1 copies, ebook available\n"
 				+ "2. JAVA : How to Program -- Duncas, 4 copies, ebook available\n"
-				+ "3. Computing Concept swith JAVA 3 Essentials -- Mac, 7 copies, ebook available\n"
+				+ "3. Computing Concepts with JAVA 3 Essentials -- Mac, 7 copies, no ebook\n"
 				+ "4. Java Software Solutions -- Brendon, 2 copies, ebook available\n"
-				+ "5. Junit 5 -- Edward, 9 copies, ebook available\n", outContent.toString());
+				+ "5. Junit 5 -- Edward, 9 copies, no ebook\n", outContent.toString());
 		
 	}
 	
 	@org.junit.jupiter.api.Test
-    void addBookToArrayFunction_returnNewList_ifAddTwoNewBook() {
+    public void addBookToArrayFunction_returnNewList_ifAddTwoNewBook() {
 		
 		Book book = new Book("Junit 5", "Edward", 9, false);
 		Book book2 = new Book("Java Class", "Savannh", 4, true);
@@ -128,21 +130,21 @@ class Test {
 		bs.displayAll();
 		assertEquals("1. Absolute Java -- Frank, 1 copies, ebook available\n"
 				+ "2. JAVA : How to Program -- Duncas, 4 copies, ebook available\n"
-				+ "3. Computing Concept swith JAVA 3 Essentials -- Mac, 7 copies, ebook available\n"
+				+ "3. Computing Concepts with JAVA 3 Essentials -- Mac, 7 copies, no ebook\n"
 				+ "4. Java Software Solutions -- Brendon, 2 copies, ebook available\n"
-				+ "5. Junit 5 -- Edward, 9 copies, ebook available\n"
+				+ "5. Junit 5 -- Edward, 9 copies, no ebook\n"
 				+ "6. Java Class -- Savannh, 4 copies, ebook available\n", outContent.toString());
 	}
 
 	@org.junit.jupiter.api.Test
-	void searchBookByTitleFunction_returnFalse_IfTitleIsempty() {
+	public void searchBookByTitleFunction_returnFalse_IfTitleIsempty() {
 		
 		Book[] selection = bs.getSelection();
 		assertFalse(bs.searchBookByTitle(""));
 	}
 	
 	@org.junit.jupiter.api.Test
-	void searchBookByTitleFunction_returnTrue_IfTitleIsValidAndLowerCase() {
+	public void searchBookByTitleFunction_returnTrue_IfTitleIsValidAndLowerCase() {
 		
 		Book[] selection = bs.getSelection();
 		assertTrue(bs.searchBookByTitle("java"));
@@ -151,7 +153,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void searchBookByTitleFunction_returnTrue_IfTitleIsValidAndUpperCase() {
+	public void searchBookByTitleFunction_returnTrue_IfTitleIsValidAndUpperCase() {
 		
 		Book[] selection = bs.getSelection();
 		assertTrue(bs.searchBookByTitle("JAVA"));
@@ -160,7 +162,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void searchBookByTitleFunction_returnTrue_IfTitleIsValidAndMixCase() {
+	public void searchBookByTitleFunction_returnTrue_IfTitleIsValidAndMixCase() {
 		
 		Book[] selection = bs.getSelection();
 		assertTrue(bs.searchBookByTitle("Java"));
@@ -168,7 +170,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void searchBookByTitleFunction_returnFalse_IfTitleIsInvalid() {
+	public void searchBookByTitleFunction_returnFalse_IfTitleIsInvalid() {
 		
 		Book[] selection = bs.getSelection();
 		assertFalse(bs.searchBookByTitle("Python"));
@@ -177,7 +179,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void searchBookByTitleFunction_returnFalse_IfTitleIsNumericAndValid() {
+	public void searchBookByTitleFunction_returnFalse_IfTitleIsNumericAndValid() {
 		
 		Book[] selection = bs.getSelection();
 		assertTrue(bs.searchBookByTitle("3"));
@@ -185,7 +187,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void searchBookByTitleFunction_returnFalse_IfTitleIsNumericAndInvalid() {
+	public void searchBookByTitleFunction_returnFalse_IfTitleIsNumericAndInvalid() {
 		
 		Book[] selection = bs.getSelection();
 		assertFalse(bs.searchBookByTitle("12"));
@@ -193,7 +195,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void searchBookByTitleFunction_returnFalse_IfTitleIsNewBook() {
+	public void searchBookByTitleFunction_returnFalse_IfTitleIsNewBook() {
 		
 		Book book = new Book("Anonymous", "Edward", 10, true);
 		bs.addBookToArray(book, bs.getBookList());
@@ -203,7 +205,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void displaySearchFunction_returnSelectionList_IfSearchTitleFound() {
+	public void displaySearchFunction_returnSelectionList_IfSearchTitleFound() {
 		
 		Book[] selection = bs.getSelection();
 		bs.searchBookByTitle("Java");
@@ -211,7 +213,7 @@ class Test {
 		assertEquals("\nThe following title is a match:\n"
 				+ "1. Absolute Java -- Frank\n"
 				+ "2. JAVA : How to Program -- Duncas\n"
-				+ "3. Computing Concept swith JAVA 3 Essentials -- Mac\n"
+				+ "3. Computing Concepts with JAVA 3 Essentials -- Mac\n"
 				+ "4. Java Software Solutions -- Brendon\n"
 				+ "0. cancel\n"
 				, outContent.toString());
@@ -219,7 +221,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void displaySearchFunction_returnSelectionList_IfSearchTitleNotFound() {
+	public void displaySearchFunction_returnSelectionList_IfSearchTitleNotFound() {
 		
 		Book[] selection = bs.getSelection();
 		bs.searchBookByTitle("Anonymous");
@@ -229,7 +231,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void addBookToCartFunction_returnItemAddedToCart_IfNewPhysicalBookAdded() {
+	public void addBookToCartFunction_returnItemAddedToCart_IfNewPhysicalBookAdded() {
 		
 		Book[] books= bs.getBookList();
 		Order[] cart = bs.getCart();
@@ -239,7 +241,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void addBookToCartFunction_returnItemAddedToCart_IfNewEBookAdded2() {
+	public void addBookToCartFunction_returnItemAddedToCart_IfNewEBookAdded2() {
 		
 		Book[] books= bs.getBookList();
 		Order[] cart = bs.getCart();
@@ -249,7 +251,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void addBookToCartFunction_returnItemAddedToCart_IfNewBookAdded() {
+	public void addBookToCartFunction_returnItemAddedToCart_IfNewBookAdded() {
 		
 		Book[] books= bs.getBookList();
 		Order[] cart = bs.getCart();
@@ -262,18 +264,18 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void displayCartFunction_returnList_IfCartHasOneItemWithPhysicalCopyAndEbookVersion() {
+	public void displayCartFunction_returnList_IfCartHasOneItemWithPhysicalCopyAndEbookVersion() {
 		
 		Book[] books= bs.getBookList();
 		Order[] cart = bs.getCart();
 		Order order = new Order(books[2], true, true);		
 		bs.addBookToCart(order);
 		bs.displayCart();
-		assertEquals("1. Computing Concept swith JAVA 3 Essentials, physical copy version, ebook version\n", outContent.toString());
+		assertEquals("1. Computing Concepts with JAVA 3 Essentials, physical copy version, ebook version\n", outContent.toString());
 	}
 	
 	@org.junit.jupiter.api.Test
-	void displayCartFunction_returnList_IfCartHasTwoItem() {
+	public void displayCartFunction_returnList_IfCartHasTwoItem() {
 		
 		Book[] books= bs.getBookList();
 		Order[] cart = bs.getCart();
@@ -288,36 +290,36 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void displayCartFunction_returnList_IfCartHasOneItemWithPhysicalCopyVersion() {
+	public void displayCartFunction_returnList_IfCartHasOneItemWithPhysicalCopyVersion() {
 		
 		Book[] books= bs.getBookList();
 		Order[] cart = bs.getCart();
 		Order order = new Order(books[2], true, false);		
 		bs.addBookToCart(order);
 		bs.displayCart();
-		assertEquals("1. Computing Concept swith JAVA 3 Essentials, physical copy version\n", outContent.toString());
+		assertEquals("1. Computing Concepts with JAVA 3 Essentials, physical copy version\n", outContent.toString());
 	}
 	
 	@org.junit.jupiter.api.Test
-	void displayCartFunction_returnList_IfCartHasOneItemWithEbookVersion() {
+	public void displayCartFunction_returnList_IfCartHasOneItemWithEbookVersion() {
 		
 		Book[] books= bs.getBookList();
 		Order[] cart = bs.getCart();
 		Order order = new Order(books[2], false, true);		
 		bs.addBookToCart(order);
 		bs.displayCart();
-		assertEquals("1. Computing Concept swith JAVA 3 Essentials, ebook version\n", outContent.toString());
+		assertEquals("1. Computing Concepts with JAVA 3 Essentials, ebook version\n", outContent.toString());
 	}
 	
 	@org.junit.jupiter.api.Test
-	void displayCartFunction_returnMessage_IfCartIsEmpty() {
+	public void displayCartFunction_returnMessage_IfCartIsEmpty() {
 		
 		bs.displayCart();
 		assertEquals("Shopping cart is empty.\n", outContent.toString());
 	}
 	
 	@org.junit.jupiter.api.Test
-	void removeItemFromCartFunction_returnUpdatedCart_IfOneItemRemoved() {
+	public void removeItemFromCartFunction_returnUpdatedCart_IfOneItemRemoved() {
 		
 		Book[] books= bs.getBookList();
 		Order order = new Order(books[0], true, true);
@@ -330,7 +332,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void removeItemFromCartFunction_returnUpdatedCart_IfTwoItemRemoved() {
+	public void removeItemFromCartFunction_returnUpdatedCart_IfTwoItemRemoved() {
 		
 		Book[] books= bs.getBookList();
 		Order order = new Order(books[0], true, true);
@@ -344,7 +346,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void removeItemFromCartFunction_returnMessage_IfTItemRemovedFromEmptycart() {
+	public void removeItemFromCartFunction_returnMessage_IfTItemRemovedFromEmptycart() {
 		
 		Book[] books= bs.getBookList();
 		Order order = new Order(books[0], true, true);
@@ -361,7 +363,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void checkoutFunction_returnCorrectValue_IfCheckoutOneBook() {
+	public void checkoutFunction_returnCorrectValue_IfCheckoutOneBook() {
 		
 		Book[] books= bs.getBookList();
 		Order order = new Order(books[0], true, false);
@@ -372,7 +374,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void checkoutFunction_returnCorrectValue_IfCheckoutTwoBook1() {
+	public void checkoutFunction_returnCorrectValue_IfCheckoutTwoBook1() {
 		
 		Book[] books= bs.getBookList();
 		Order order = new Order(books[0], true, true);
@@ -386,7 +388,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void checkoutFunction_returnCorrectValue_IfCheckoutTwoBook2() {
+	public void checkoutFunction_returnCorrectValue_IfCheckoutTwoBook2() {
 		
 		Book[] books= bs.getBookList();
 		Order order = new Order(books[0], true, true);
@@ -399,7 +401,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void checkoutFunction_returnCorrectValue_IfNoBookToCheckout() {
+	public void checkoutFunction_returnCorrectValue_IfNoBookToCheckout() {
 		
 		Book[] books= bs.getBookList();
 		bs.checkout();
@@ -407,7 +409,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void updateStoreCopyFunction_returnChanges_IfBuyOneBookOneTime() {
+	public void updateStoreCopyFunction_returnChanges_IfBuyOneBookOneTime() {
 		
 		Book[] books= bs.getBookList();
 		Order order = new Order(books[0], true, false);
@@ -417,7 +419,7 @@ class Test {
 	}
 	
 	@org.junit.jupiter.api.Test
-	void updateStoreCopyFunction_returnChanges_IfOneBookIsBoughtTwoTimes() {
+	public void updateStoreCopyFunction_returnChanges_IfOneBookIsBoughtTwoTimes() {
 		
 		Book[] books= bs.getBookList();
 		Order order = new Order(books[1], true, false);
