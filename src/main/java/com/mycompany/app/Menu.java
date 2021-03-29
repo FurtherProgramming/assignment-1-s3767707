@@ -87,15 +87,17 @@ public class Menu {
      * IF found
        * DISPLAY search result
        * PROMPT user to select what item to purchase
-       * WHILE user input incorrect
+       * WHILE user input incorrect(match = false)
          * IF user input = 0
-         * THEN exit function
+           * THEN exit function
          * IF user input is numeric
-           * IF user input matches search result list
-             * RUN purchaseEbook(String input, Book[] selection, int num) function
-           * ELSE print error message
-         * ELSE print error message
-       * ELSE print error message 
+           *IF user input is within range of selection list length
+             * IF user input matches search result list
+               * RUN purchaseEbook(String input, Book[] selection, int num) function
+             * ELSE print error message (match = false)
+           * ELSE print error message (match = false)
+         * ELSE print error message (match = false)
+       * ELSE print error message (match = false)
      */
 	private void promptUserToAddItem() {
 		
@@ -127,11 +129,18 @@ public class Menu {
 					num = Integer.parseInt(input);
 					
 					//only one item can be selected to purchase each time
-					if(num > 0 && num < selection.length) {									
-					
-						System.out.println("\nPurchasing: " + selection[num - 1].getTitle());										
-					    purchaseEbook(input, selection, num);
-					    					    			    
+					if(num > 0 && num < selection.length) {	
+						
+						if(selection[num - 1] != null) {
+							
+							System.out.println("\nPurchasing: " + selection[num - 1].getTitle());										
+						    purchaseEbook(input, selection, num);
+						}
+						else {
+							
+							System.out.println("Invalid option! Please try again.");
+							match = false;
+						}					    					    			    
 					}
 					else {
 
@@ -281,10 +290,22 @@ public class Menu {
         		
         		int num = Integer.parseInt(input);
         		
-        		if(num != 0) {
+        		//Check if item selected is valid
+        		if(num > 0 && num < cart.length) {	
+					
+					if(cart[num - 1] != null) {						
         			
-        			bookStore.removeItemFromCart(num - 1);
+        			    bookStore.removeItemFromCart(num - 1);
+        		    }
+					else {
+						
+						System.out.println("Invalid option.");
+					}
         		}
+        		else {
+					
+					System.out.println("Invalid option.");
+				}
         	}
         	else {
         		
@@ -295,6 +316,6 @@ public class Menu {
     		
     		System.out.println("Your shopping cart is empty.");
     	}
-    }
+    }   	
     	
 }

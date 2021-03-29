@@ -230,28 +230,30 @@ public class AppTest
 		
 	}
 	
-	@org.junit.jupiter.api.Test
+		@org.junit.jupiter.api.Test
 	public void addBookToCartFunction_returnItemAddedToCart_IfNewPhysicalBookAdded() {
 		
 		Book[] books= bs.getBookList();
 		Order[] cart = bs.getCart();
 		Order order = new Order(books[0], true, false);
 		bs.addBookToCart(order);
-		assertNotNull(cart[0]);
+		bs.displayCart();
+		assertEquals("1. Absolute Java, physical copy version\n", outContent.toString());
 	}
 	
 	@org.junit.jupiter.api.Test
-	public void addBookToCartFunction_returnItemAddedToCart_IfNewEBookAdded2() {
+	public void addBookToCartFunction_returnItemAddedToCart_IfNewEBookAdded() {
 		
 		Book[] books= bs.getBookList();
 		Order[] cart = bs.getCart();
 		Order order = new Order(books[0], false, true);
 		bs.addBookToCart(order);
-		assertNotNull(cart[0]);
+		bs.displayCart();
+		assertEquals("1. Absolute Java, ebook version\n", outContent.toString());
 	}
 	
 	@org.junit.jupiter.api.Test
-	public void addBookToCartFunction_returnItemAddedToCart_IfNewBookAdded() {
+	public void addBookToCartFunction_returnItemAddedToCart_If2NewBookAdded() {
 		
 		Book[] books= bs.getBookList();
 		Order[] cart = bs.getCart();
@@ -259,8 +261,43 @@ public class AppTest
 		Order order2 = new Order(books[1], true, true);
 		bs.addBookToCart(order);
 		bs.addBookToCart(order2);
-		assertEquals("Absolute Java", cart[0].getBook().getTitle());
-		assertEquals("JAVA : How to Program", cart[1].getBook().getTitle());
+		bs.displayCart();
+		assertEquals("1. Absolute Java, physical copy version, ebook version\n"
+				   + "2. JAVA : How to Program, physical copy version, ebook version\n", outContent.toString());
+	}
+	
+	@org.junit.jupiter.api.Test
+	public void addBookToCartFunction_returnUpdatedBookList_IfNewBookAdded() {
+		
+		Book[] books= bs.getBookList();
+		Order[] cart = bs.getCart();
+		Order order = new Order(books[0], true, true);
+		Order order2 = new Order(books[1], true, true);
+		bs.addBookToCart(order);
+		bs.addBookToCart(order2);
+		bs.displayAll();
+		assertEquals("1. Absolute Java -- Frank, 0 copies, ebook available\n"
+				+ "2. JAVA : How to Program -- Duncas, 3 copies, ebook available\n"
+				+ "3. Computing Concepts with JAVA 3 Essentials -- Mac, 7 copies, no ebook\n"
+				+ "4. Java Software Solutions -- Brendon, 2 copies, ebook available\n"
+				, outContent.toString());
+	}
+	
+	@org.junit.jupiter.api.Test
+	public void addBookToCartFunction_returnUpdatedBookList_If2NewBookAdded() {
+		
+		Book[] books= bs.getBookList();
+		Order[] cart = bs.getCart();
+		Order order = new Order(books[0], true, true);
+		Order order2 = new Order(books[1], true, true);
+		bs.addBookToCart(order);
+		bs.addBookToCart(order2);
+		bs.displayAll();
+		assertEquals("1. Absolute Java -- Frank, 0 copies, ebook available\n"
+				+ "2. JAVA : How to Program -- Duncas, 3 copies, ebook available\n"
+				+ "3. Computing Concepts with JAVA 3 Essentials -- Mac, 7 copies, no ebook\n"
+				+ "4. Java Software Solutions -- Brendon, 2 copies, ebook available\n"
+				, outContent.toString());
 	}
 	
 	@org.junit.jupiter.api.Test
@@ -360,6 +397,40 @@ public class AppTest
 		assertEquals("Item removed from shopping cart.\n"
 				   + "Item removed from shopping cart.\n"
 				   + "Shopping cart is empty.\n", outContent.toString());
+	}
+
+    @org.junit.jupiter.api.Test
+	public void removeItemFromCartFunction_returnUpdatedBookList_IfOneItemRemoved() {
+		
+		Book[] books= bs.getBookList();
+		Order order = new Order(books[0], true, true);
+		Order order2 = new Order(books[1], true, true);
+		bs.addBookToCart(order);
+		bs.addBookToCart(order2);
+		bs.removeItemFromCart(0);
+		Order[] cart = bs.getCart();
+		assertEquals(1, books[0].getNum());
+	}
+	
+	@org.junit.jupiter.api.Test
+	public void removeItemFromCartFunction_returnUpdatedBookList_IfTwoItemRemoved() {
+		
+		Book[] books= bs.getBookList();
+		Order order = new Order(books[0], true, true);
+		Order order2 = new Order(books[1], true, true);
+		bs.addBookToCart(order);
+		bs.addBookToCart(order2);
+		bs.removeItemFromCart(0);
+		bs.removeItemFromCart(0);
+		Order[] cart = bs.getCart();
+		bs.displayAll();
+		assertEquals("Item removed from shopping cart.\n"
+				+ "Item removed from shopping cart.\n"
+				+ "1. Absolute Java -- Frank, 1 copies, ebook available\n"
+				+ "2. JAVA : How to Program -- Duncas, 4 copies, ebook available\n"
+				+ "3. Computing Concepts with JAVA 3 Essentials -- Mac, 7 copies, no ebook\n"
+				+ "4. Java Software Solutions -- Brendon, 2 copies, ebook available\n"
+				, outContent.toString());
 	}
 	
 	@org.junit.jupiter.api.Test
